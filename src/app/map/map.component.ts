@@ -26,6 +26,11 @@ export class MapComponent implements OnInit {
     });
   }
 
+  customizeTooltip (arg) {
+    let name = arg.attribute("name");
+    return {text: `deg of openness of ${name}`}
+  }
+
   customizeText = (arg) => ("degree of openness"); // yeah i know thats not a word // todo :: get a proper label
 
 

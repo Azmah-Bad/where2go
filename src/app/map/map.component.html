@@ -3,11 +3,16 @@
 
 <dx-vector-map
   id="vector-map"
-  [bounds]="[-180, 85, 180, -60]">
+  [bounds]="[-180, 85, 180, -60]"
+  theme="generic.darkmoon"
+  >
 
   <dxo-tooltip
         [enabled]="true"
-        contentTemplate="tooltipContent"></dxo-tooltip>
+        [customizeTooltip]="customizeTooltip">
+          <dxo-font color="#fff"></dxo-font>
+          <dxo-border [visible]="false"></dxo-border>
+      </dxo-tooltip>
   <dxo-export [enabled]="true"></dxo-export>
 
   <dxi-layer
