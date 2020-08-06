@@ -1,0 +1,24 @@
+<h1>Where to go</h1>
+
+
+<dx-vector-map
+  id="vector-map"
+  [bounds]="[-180, 85, 180, -60]">
+
+  <dxo-tooltip
+        [enabled]="true"
+        contentTemplate="tooltipContent"></dxo-tooltip>
+    <dxo-export [enabled]="true"></dxo-export>
+
+  <dxi-layer
+        [customize]="customizeLayers"
+        [dataSource]="worldMap"
+        [colorGroups]="[0, 1, 2, 3, 4]"
+        colorGroupingField="total"
+        
+        name="areas">
+        <dxo-label [enabled]="true" dataField="name"></dxo-label>
+
+  </dxi-layer>
+
+</dx-vector-map>
