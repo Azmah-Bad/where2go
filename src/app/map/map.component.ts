@@ -21,10 +21,12 @@ export class MapComponent implements OnInit {
 
   customizeLayers(elements) {
     elements.forEach((element) => {
-        let countryGDPData = Math.random() * 4
-        element.attribute("total", countryGDPData|| 0);
+        let countryOpeness = Math.random() * 4 // TODO :: get data from server
+        element.attribute("total", countryOpeness|| 0);
     });
-}
+  }
+
+  customizeText = (arg) => ("degree of openness"); // yeah i know thats not a word // todo :: get a proper label
 
 
 }

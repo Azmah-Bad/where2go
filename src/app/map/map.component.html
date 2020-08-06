@@ -8,17 +8,21 @@
   <dxo-tooltip
         [enabled]="true"
         contentTemplate="tooltipContent"></dxo-tooltip>
-    <dxo-export [enabled]="true"></dxo-export>
+  <dxo-export [enabled]="true"></dxo-export>
 
   <dxi-layer
         [customize]="customizeLayers"
         [dataSource]="worldMap"
         [colorGroups]="[0, 1, 2, 3, 4]"
         colorGroupingField="total"
-        
+
         name="areas">
         <dxo-label [enabled]="true" dataField="name"></dxo-label>
 
   </dxi-layer>
+
+  <dxi-legend [customizeText]="customizeText">
+    <dxo-source layer="areas" grouping="color"></dxo-source>
+  </dxi-legend>
 
 </dx-vector-map>
