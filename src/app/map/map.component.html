@@ -1,11 +1,11 @@
 <h1>Where to go</h1>
-<h2>you are at {{currentCountry}}</h2>
+<h2>this is a map of where you can go from {{currentCountry}}</h2>
 
 
 <dx-vector-map
   id="vector-map"
   [bounds]="[-180, 85, 180, -60]"
-  theme="generic.darkmoon"
+  [background]="{ borderColor: '#051923' , color : '#051923'}"
   >
 
   <dxo-tooltip
