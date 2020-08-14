@@ -41,7 +41,6 @@ export class MapComponent implements OnInit {
     switch (itemInfo.index) {
       case 0:
         return 'you are here'
-
       case 1:
         return 'open'
       case 2:

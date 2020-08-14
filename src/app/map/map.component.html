@@ -1,5 +1,5 @@
 <h1>Where to go</h1>
-<h2>this is a map of where you can go from {{currentCountry}}</h2>
+<h2>this is a map of where you can travel from {{currentCountry}}</h2>
 
 
 <dx-vector-map
@@ -26,7 +26,7 @@
         [dataSource]="worldMap"
         [colorGroups]="[0, 1, 2, 3, 4]"
         colorGroupingField="total"
-        [palette]="['#74FB74','#00A6FB','#ffd166','#FF3333']"
+        [palette]="['#00A6FB','#74FB74','#ffd166','#FF3333']"
         name="areas">
         <dxo-label [enabled]="true" dataField="name"></dxo-label>
 
