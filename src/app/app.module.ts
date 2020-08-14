@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { DxButtonModule, DxVectorMapModule } from 'devextreme-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DxButtonModule, DxVectorMapModule } from 'devextreme-angular';
     BrowserModule,
     AppRoutingModule,
     DxButtonModule,
-    DxVectorMapModule
+    DxVectorMapModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
