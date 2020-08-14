@@ -8,13 +8,18 @@
   [background]="{ borderColor: '#051923' , color : '#051923'}"
   >
 
+  <dxo-control-bar
+    borderColor="#0582ca"
+    color="#003554"
+  ></dxo-control-bar>
+
   <dxo-tooltip
         [enabled]="true"
         [customizeTooltip]="customizeTooltip">
           <dxo-font color="#0582ca"></dxo-font>
           <dxo-border [visible]="false"></dxo-border>
       </dxo-tooltip>
-  <dxo-export [enabled]="true"></dxo-export>
+  <!-- <dxo-export [enabled]="true"></dxo-export> -->
 
   <dxi-layer
         [customize]="customizeLayers"
