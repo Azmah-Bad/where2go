@@ -37,5 +37,19 @@ export class MapComponent implements OnInit {
     return { text: `deg of openness of ${name}` };
   }
 
-  customizeText = (arg) => 'degree of openness'; // yeah i know thats not a word // todo :: get a proper label
+  customizeText = (itemInfo) => {
+    switch (itemInfo.index) {
+      case 0:
+        return 'you are here'
+
+      case 1:
+        return 'open'
+      case 2:
+        return 'open with restrictions'
+      case 3:
+        return 'closed'
+      default:
+        return ''
+    }
+  }
 }
