@@ -31,7 +31,7 @@ export class MapComponent implements OnInit {
         this.currentCountry = resp.countryName;
         this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
           if (element.attribute("name") == this.currentCountry) {
-            element.attribute("total", 0);
+            element.attribute("total", 0); // change the degree of openness of the country
             element.applySettings({});
 
           }
@@ -82,7 +82,7 @@ export class MapComponent implements OnInit {
       case 3:
         return 'closed'
       default:
-        return ''
+        return 'unknown'
     }
   }
 }
