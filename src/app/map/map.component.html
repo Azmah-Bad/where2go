@@ -6,7 +6,7 @@
   id="vector-map"
   #theVectorMap
   [bounds]="[-180, 85, 180, -60]"
-  [background]="{ borderColor: '#051923' , color : '#051923'}"
+  [background]="{ borderColor: '#051923' , color : '#020F19'}"
   >
 
   <dxo-control-bar
@@ -27,7 +27,9 @@
         [dataSource]="worldMap"
         [colorGroups]="[0, 1, 2, 3, 4, 5]"
         colorGroupingField="total"
-        [palette]="['#00A6FB','#74FB74','#ffd166','#FF3333', '#c3c7c9']"
+        borderColor="#020F19"
+        hoveredBorderColor="#003554"
+        [palette]="['#00A6FB','#74FB74','#ffd166','#FF3333', '#2A2A28']"
         name="areas">
         <dxo-label [enabled]="true" dataField="name"></dxo-label>
 
