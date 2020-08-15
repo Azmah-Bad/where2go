@@ -1,22 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { DxVectorMapComponent } from 'devextreme-angular';
 import { LocationService } from '../location.service';
 import * as mapsData from 'devextreme/dist/js/vectormap-data/world.js';
+import { CountryService } from "../country.service";
+import { Countries, Country } from '../country';
 
 @Component({
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
+  styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
   worldMap: any = mapsData.world;
+  countries: Countries;
+  currentCountry: string;
 
-  constructor(private locationService: LocationService) {}
-  currentCountry: String;
+  @ViewChild("theVectorMap", {static: false}) VectorMap: DxVectorMapComponent;
+
+  constructor(
+    private locationService: LocationService,
+    private countryService: CountryService,
+  ) {
+    this.customizeLayers = this.customizeLayers.bind(this);
+  }
+
 
   ngOnInit(): void {
+    this.countries = this.countryService.getCountries();
     this.locationService.getPosition().subscribe((position) => {
       this.locationService.getCountry(position).subscribe((resp) => {
-        this.currentCountry = resp.countryName
+        this.currentCountry = resp.countryName;
+        this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
+          if (element.attribute("name") == this.currentCountry) {
+            element.attribute("total", 0);
+            element.applySettings({});
+
+          }
+        })
+
+
       })
     });
   }
@@ -27,9 +48,22 @@ export class MapComponent implements OnInit {
 
   customizeLayers(elements) {
     elements.forEach((element) => {
-      let countryOpeness = Math.random() * 4; // TODO :: get data from server
-      element.attribute('total', countryOpeness || 0);
-    });
+      let country:String = element.attribute("name");
+      let countryOpeness = (Math.random() * 3) + 1; // TODO :: get data from server
+      if (country == this.currentCountry) {
+
+      } else {
+        element.attribute('total', countryOpeness || 0);
+      }
+
+
+      // if (country) {
+      //   element.attribute('total', country.openness);
+      // } else {
+      //   element.attribute('total', countryOpeness || 0);
+      // }
+
+    })
   }
 
   customizeTooltip(arg) {
