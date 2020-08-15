@@ -49,20 +49,11 @@ export class MapComponent implements OnInit {
   customizeLayers(elements) {
     elements.forEach((element) => {
       let country:String = element.attribute("name");
-      let countryOpeness = (Math.random() * 3) + 1; // TODO :: get data from server
       if (country == this.currentCountry) {
 
       } else {
-        element.attribute('total', countryOpeness || 0);
+        element.attribute('total', 5);
       }
-
-
-      // if (country) {
-      //   element.attribute('total', country.openness);
-      // } else {
-      //   element.attribute('total', countryOpeness || 0);
-      // }
-
     })
   }
 

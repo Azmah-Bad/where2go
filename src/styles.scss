@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Philosopher&family=Playfair+Display+SC:wght@700&display=swap');
 
 $color-black:       #051923;
 $color-grey:        #003554;
@@ -10,9 +10,9 @@ $color-light-blue:  #fffaff;
 
 body{
   background-color: $color-black;
+  font-family: 'Philosopher', sans-serif;
 }
 
 *{
   color: $color-light-blue;
-  font-family: 'Libre Baskerville', serif;
 }
