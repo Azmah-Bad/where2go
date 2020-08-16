@@ -113,4 +113,13 @@ export class MapComponent implements OnInit {
       }
     })
   }
+
+  updateCountries(countries: string[], openness: number) {
+    this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
+      if (element.attribute("name") in countries) {
+        element.attribute("total", openness); // change the degree of openness of the country
+        element.applySettings({});
+      }
+    })
+  }
 }
