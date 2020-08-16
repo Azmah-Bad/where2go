@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Countries, Country } from "./country";
-
-let countries: Countries = {
-  Morocco: { openness:4},
-  Germany: { openness:0}
-};
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { QueryResult } from "./query-result";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountryService {
+  private API = 'http://127.0.0.1:8000/api/country/'
 
-  constructor() { }
+  constructor(
+    private http:HttpClient
+  ) { }
 
-  getCountries():Countries {
-    return countries
+
+  getRelationships(country: string):Observable<QueryResult[]> {
+    return this.http.get<QueryResult[]>(this.API + country + "/");
   }
 }
