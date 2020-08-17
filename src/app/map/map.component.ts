@@ -6,6 +6,8 @@ import { CountryService } from "../services/country.service";
 import { Countries, Country } from '../interfaces/country';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Relationship } from '../interfaces/relationship';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './map.component.html',
@@ -20,6 +22,8 @@ export class MapComponent implements OnInit {
   constructor(
     private locationService: LocationService,
     private countryService: CountryService,
+    private route: ActivatedRoute,
+    private location: Location,
   ) {
     this.customizeLayers = this.customizeLayers.bind(this);
   }
@@ -27,45 +31,29 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.locationService.getPosition().subscribe((position) => {
-      this.locationService.getCountry(position).subscribe((resp) => {
-        this.VectorMap.instance.hideLoadingIndicator();
-        // found the currentCountry
-        this.currentCountry = resp.countryName;
+    if (this.route.snapshot.paramMap.has('country')) {
+      // the country is in the route
+      this.currentCountry = this.route.snapshot.paramMap.get('country');
+      // this.VectorMap.onDrawn.asObservable().subscribe(_ => {
+      //   console.log("rendered");
+      //   this.updateMap();
+      // })
+    } else {
+      // let's try to find out the currentCountry
+      this.locationService.getPosition().subscribe((position) => {
+        this.locationService.getCountry(position).subscribe((resp) => {
+          this.VectorMap.instance.hideLoadingIndicator();
+          // found the currentCountry
+          this.currentCountry = resp.countryName;
 
-        // update currentCountry color
-        this.updateCountry(this.currentCountry, 0);
+          this.location.go("/" + this.currentCountry);
+          this.updateMap();
 
-        // get other countries status
-        this.countryService.getRelationships(this.currentCountry)
-          .subscribe(
-            (results) => {
-              let relationships: Relationship[] = [];
-              results.forEach((result) => { relationships.push( result.fields )});
-              relationships.forEach((relationship) => {
-                let mRelationship = new Relationship(relationship);
-
-                if (mRelationship.departure_country == '*') {
-                  this.updateAllCountries(mRelationship.getStatus());
-                } else {
-                  mRelationship.toCountryNames();
-                  this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
-                    if (element.attribute("name") == mRelationship.arrival_country) {
-                      element.attribute("total", mRelationship.getStatus()); // change the degree of openness of the country
-                      element.attribute("info", mRelationship.info);
-                      element.applySettings({});
-                  }
-                })
-                }
+        })
+      });
+    }
 
 
-
-              })
-            }
-          )
-
-      })
-    });
   }
 
   helloWorld() {
@@ -104,14 +92,51 @@ export class MapComponent implements OnInit {
     }
   }
 
+  updateMap() {
+    if (this.currentCountry == undefined) {
+      return // so it does nothing when the
+    }
+    // update currentCountry color
+    this.updateCountry(this.currentCountry, 0);
+
+    // get other countries status
+    this.countryService.getRelationships(this.currentCountry)
+      .subscribe(
+        (results) => {
+          let relationships: Relationship[] = [];
+          results.forEach((result) => { relationships.push( result.fields )});
+          relationships.forEach((relationship) => {
+            let mRelationship = new Relationship(relationship);
+
+            if (mRelationship.arrival_country == '*') {
+              this.updateAllCountries(mRelationship);
+            } else {
+              mRelationship.toCountryNames();
+              this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
+                if (element.attribute("name") == mRelationship.arrival_country) {
+                  element.attribute("total", mRelationship.getStatus()); // change the degree of openness of the country
+                  element.attribute("info", mRelationship.info);
+                  element.applySettings({});
+              }
+            })
+            }
+          })
+        }
+      )
+  }
 
   /**
    * call if the country is qurantine meaning you can visit any other country
    */
-  updateAllCountries(openness:number) {
+  updateAllCountries(relationship: Relationship) {
+    let openness = relationship.getStatus();
+    relationship.translateDepartureCountry();
     this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
-      element.attribute("total", openness); // change the degree of openness of the country
-      element.applySettings({});
+      if (element.attribute('name') != relationship.departure_country) {
+        element.attribute("total", openness); // change the degree of openness of the country
+        element.attribute("info", relationship.info);
+        element.applySettings({});
+      }
     })
   }
 

@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { MapComponent } from './map/map.component';
 
 
-const routes: Routes = [{
-  path:'',component: MapComponent
-}
+const routes: Routes = [
+  { path: '', component: MapComponent },
+  { path: ':country', component: MapComponent },
 ];
 
 @NgModule({
