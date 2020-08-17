@@ -26,8 +26,10 @@ export class MapComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.locationService.getPosition().subscribe((position) => {
       this.locationService.getCountry(position).subscribe((resp) => {
+        this.VectorMap.instance.hideLoadingIndicator();
         // found the currentCountry
         this.currentCountry = resp.countryName;
 

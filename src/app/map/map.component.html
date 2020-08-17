@@ -2,12 +2,19 @@
 <h2>this is a map of where you can travel from {{currentCountry}}</h2>
 
 
+
 <dx-vector-map
   id="vector-map"
   #theVectorMap
   [bounds]="[-180, 85, 180, -60]"
   [background]="{ borderColor: '#051923' , color : '#020F19'}"
   >
+
+  <dxo-loading-indicator
+    [enabled] = "true"
+    [show] = "true"
+    backgroundColor="#051923"
+  ></dxo-loading-indicator>
 
   <dxo-control-bar
     borderColor="#0582ca"
