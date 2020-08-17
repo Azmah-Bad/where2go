@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { DxVectorMapComponent } from 'devextreme-angular';
-import { LocationService } from '../location.service';
+import { LocationService } from '../services/location.service';
 import * as mapsData from 'devextreme/dist/js/vectormap-data/world.js';
-import { CountryService } from "../country.service";
-import { Countries, Country } from '../country';
+import { CountryService } from "../services/country.service";
+import { Countries, Country } from '../interfaces/country';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Relationship } from '../relationship';
+import { Relationship } from '../interfaces/relationship';
 
 @Component({
   templateUrl: './map.component.html',

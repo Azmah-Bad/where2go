@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GeoNames } from "./geo-names";
+import { GeoNames } from "../interfaces/geo-names";
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
