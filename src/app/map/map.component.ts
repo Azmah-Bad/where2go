@@ -83,7 +83,7 @@ export class MapComponent implements OnInit {
 
   customizeTooltip(arg) {
     let name = arg.attribute('name');
-    let info = arg.attribute('info') || "";
+    let info = arg.attribute('info') || "No info";
     return { text: `${name}: ${info}`};
   }
 
