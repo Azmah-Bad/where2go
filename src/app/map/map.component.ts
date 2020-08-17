@@ -42,13 +42,21 @@ export class MapComponent implements OnInit {
               results.forEach((result) => { relationships.push( result.fields )});
               relationships.forEach((relationship) => {
                 let mRelationship = new Relationship(relationship);
-                mRelationship.toCountryNames();
-                this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
-                  if (element.attribute("name") == mRelationship.arrival_country) {
-                    element.attribute("total", mRelationship.getStatus()); // change the degree of openness of the country
-                    element.applySettings({});
+
+                if (mRelationship.departure_country == '*') {
+                  this.updateAllCountries(mRelationship.getStatus());
+                } else {
+                  mRelationship.toCountryNames();
+                  this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
+                    if (element.attribute("name") == mRelationship.arrival_country) {
+                      element.attribute("total", mRelationship.getStatus()); // change the degree of openness of the country
+                      element.attribute("info", mRelationship.info);
+                      element.applySettings({});
                   }
                 })
+                }
+
+
 
               })
             }
@@ -75,7 +83,8 @@ export class MapComponent implements OnInit {
 
   customizeTooltip(arg) {
     let name = arg.attribute('name');
-    return { text: `deg of openness of ${name}` };
+    let info = arg.attribute('info') || "";
+    return { text: `${name}: ${info}`};
   }
 
   customizeText = (itemInfo) => {
@@ -97,9 +106,9 @@ export class MapComponent implements OnInit {
   /**
    * call if the country is qurantine meaning you can visit any other country
    */
-  qurantined() {
+  updateAllCountries(openness:number) {
     this.VectorMap.instance.getLayers()[0].getElements().forEach((element) => {
-      element.attribute("total", 4); // change the degree of openness of the country
+      element.attribute("total", openness); // change the degree of openness of the country
       element.applySettings({});
     })
   }
