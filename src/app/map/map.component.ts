@@ -4,6 +4,7 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 import { DxVectorMapComponent } from 'devextreme-angular';
 import { LocationService } from '../services/location.service';
@@ -16,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
 import { GeoNames } from '../interfaces/geo-names';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   templateUrl: './map.component.html',
@@ -25,13 +27,15 @@ export class MapComponent implements OnInit {
   worldMap: any = mapsData.world;
   currentCountry: string;
 
+
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
 
   constructor(
     private locationService: LocationService,
     private countryService: CountryService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    public dialog: MatDialog
   ) {
     this.customizeLayers = this.customizeLayers.bind(this);
   }
@@ -193,4 +197,47 @@ export class MapComponent implements OnInit {
         }
       });
   }
+
+  resetMap() {
+    this.updateAllCountries(new Relationship({ status: '5' }));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverview, {
+      width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.currentCountry = result;
+      this.location.go('/' + this.currentCountry);
+      this.resetMap();
+      this.updateMap();
+
+    });
+  }
+}
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'dialog.html',
+  styleUrls: ['./dialog.scss'],
+
+})
+export class DialogOverview {
+  selected:string;
+  countries = ["France", "Germany", "Morocco"];
+
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverview>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+export interface DialogData {
+  animal: string;
+  name: string;
 }
