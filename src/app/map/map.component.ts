@@ -4,10 +4,11 @@ import { LocationService } from '../services/location.service';
 import * as mapsData from 'devextreme/dist/js/vectormap-data/world.js';
 import { CountryService } from "../services/country.service";
 import { Countries, Country } from '../interfaces/country';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { Relationship } from '../interfaces/relationship';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { of } from 'rxjs';
 
 @Component({
   templateUrl: './map.component.html',
@@ -34,23 +35,24 @@ export class MapComponent implements OnInit {
     if (this.route.snapshot.paramMap.has('country')) {
       // the country is in the route
       this.currentCountry = this.route.snapshot.paramMap.get('country');
-      // this.VectorMap.onDrawn.asObservable().subscribe(_ => {
-      //   console.log("rendered");
-      //   this.updateMap();
-      // })
     } else {
-      // let's try to find out the currentCountry
-      this.locationService.getPosition().subscribe((position) => {
-        this.locationService.getCountry(position).subscribe((resp) => {
-          this.VectorMap.instance.hideLoadingIndicator();
-          // found the currentCountry
-          this.currentCountry = resp.countryName;
-
-          this.location.go("/" + this.currentCountry);
-          this.updateMap();
-
+      this.locationService.getPosition().pipe(
+        switchMap((position) => {
+          return this.locationService.getCountry(position)
         })
-      });
+        // ,
+        // catchError((err) => {
+        //   console.error(err);
+        //   return of('shit')
+        // })
+      ).subscribe(resp => {
+        this.VectorMap.instance.hideLoadingIndicator();
+        // found the currentCountry
+        this.currentCountry = resp.countryName;
+
+        this.location.go("/" + this.currentCountry);
+        this.updateMap();
+      })
     }
 
 
