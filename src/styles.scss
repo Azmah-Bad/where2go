@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Philosopher&family=Playfair+Display+SC:wght@700&display=swap');
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 $color-black:       #020F19;
 $color-grey:        #003554;
@@ -13,6 +14,5 @@ body{
   font-family: 'Philosopher', sans-serif;
 }
 
-*{
-  color: $color-light-blue;
-}
+
+

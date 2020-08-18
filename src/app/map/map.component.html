@@ -8,6 +8,7 @@
   #theVectorMap
   [bounds]="[-180, 85, 180, -60]"
   [background]="{ borderColor: '#051923' , color : '#020F19'}"
+  (onDrawn)="updateMap()"
   >
 
   <dxo-loading-indicator
@@ -52,3 +53,5 @@
   </dxi-legend>
 
 </dx-vector-map>
+
+<button mat-raised-button (click)="openDialog()" class="change-country-button">Change country</button>

@@ -12,7 +12,9 @@ export class Relationship {
 
   }
 
-
+  translateDepartureCountry() {
+    this.departure_country = countryListAlpha2[this.departure_country];
+  }
 
   public toCountryNames() {
     this.departure_country = countryListAlpha2[this.departure_country];
