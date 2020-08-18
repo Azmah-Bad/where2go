@@ -15,6 +15,7 @@ import { Relationship } from '../interfaces/relationship';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
+import { GeoNames } from '../interfaces/geo-names';
 
 @Component({
   templateUrl: './map.component.html',
@@ -51,6 +52,15 @@ export class MapComponent implements OnInit {
           //   console.error(err);
           //   return of('shit')
           // })
+        )
+        .pipe(
+          catchError(err => {
+            console.error(err);
+            alert("couldn't find the name of your country");
+            let placeholder: GeoNames
+            placeholder.countryName = '';
+            return of(placeholder)
+          })
         )
         .subscribe((resp) => {
           this.VectorMap.instance.hideLoadingIndicator();
