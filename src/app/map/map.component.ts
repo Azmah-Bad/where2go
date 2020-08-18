@@ -17,8 +17,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
 import { GeoNames } from '../interfaces/geo-names';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { countryList } from "../../assets/counries";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { countryList } from '../../assets/counries';
 
 @Component({
   templateUrl: './map.component.html',
@@ -27,7 +31,6 @@ import { countryList } from "../../assets/counries";
 export class MapComponent implements OnInit {
   worldMap: any = mapsData.world;
   currentCountry: string;
-
 
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
 
@@ -62,11 +65,11 @@ export class MapComponent implements OnInit {
           map((geoName) => {
             return geoName.countryName;
           }),
-          catchError(err => {
+          catchError((err) => {
             console.error(err);
             // alert("couldn't find the name of your country");
             this.dialog.open(DialogOverview);
-            return this.currentCountry
+            return this.currentCountry;
           })
         )
         .subscribe((countryName) => {
@@ -208,15 +211,14 @@ export class MapComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px',
-      disableClose:true,
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.currentCountry = result;
       this.location.go('/' + this.currentCountry);
       this.resetMap();
       this.updateMap();
-
     });
   }
 }
@@ -224,19 +226,14 @@ export class MapComponent implements OnInit {
   selector: 'dialog-overview-example-dialog',
   templateUrl: 'dialog.html',
   styleUrls: ['./dialog.scss'],
-
 })
 export class DialogOverview {
   selected: string;
   countries = countryList;
 
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverview>) {}
+  constructor(public dialogRef: MatDialogRef<DialogOverview>) {}
 
   onNoClick(): void {
     // this.dialogRef.close();
   }
-
 }
-
