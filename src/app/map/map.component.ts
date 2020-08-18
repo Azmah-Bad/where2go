@@ -17,7 +17,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
 import { GeoNames } from '../interfaces/geo-names';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { countryList } from "../../assets/counries";
 
 @Component({
   templateUrl: './map.component.html',
@@ -223,21 +224,16 @@ export class MapComponent implements OnInit {
 
 })
 export class DialogOverview {
-  selected:string;
-  countries = ["France", "Germany", "Morocco"];
+  selected: string;
+  countries = countryList;
 
 
   constructor(
-    public dialogRef: MatDialogRef<DialogOverview>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    public dialogRef: MatDialogRef<DialogOverview>) {}
 
   onNoClick(): void {
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 
 }
 
-export interface DialogData {
-  animal: string;
-  name: string;
-}
