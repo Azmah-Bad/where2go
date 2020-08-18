@@ -55,22 +55,24 @@ export class MapComponent implements OnInit {
           // ,
           // catchError((err) => {
           //   console.error(err);
-          //   return of('shit')
+          //   return of()
           // })
         )
         .pipe(
+          map((geoName) => {
+            return geoName.countryName;
+          }),
           catchError(err => {
             console.error(err);
-            alert("couldn't find the name of your country");
-            let placeholder: GeoNames
-            placeholder.countryName = '';
-            return of(placeholder)
+            // alert("couldn't find the name of your country");
+            this.dialog.open(DialogOverview);
+            return this.currentCountry
           })
         )
-        .subscribe((resp) => {
+        .subscribe((countryName) => {
           this.VectorMap.instance.hideLoadingIndicator();
           // found the currentCountry
-          this.currentCountry = resp.countryName;
+          this.currentCountry = countryName;
 
           this.location.go('/' + this.currentCountry);
           this.updateMap();
@@ -206,6 +208,7 @@ export class MapComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px',
+      disableClose:true,
     });
 
     dialogRef.afterClosed().subscribe(result => {
