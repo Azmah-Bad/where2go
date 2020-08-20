@@ -13,13 +13,16 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { LoginComponent } from './login/login.component';
+import { MatCardModule } from "@angular/material/card";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    DialogOverview
+    DialogOverview,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatInputModule,
     MatButtonModule,
     BrowserAnimationsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule
   ],
   // exports:
   //   [MatDialogModule,
