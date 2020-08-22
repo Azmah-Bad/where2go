@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service'
 import {Router} from "@angular/router"
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   templateUrl: './login.component.html',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
+    private _snackBar: MatSnackBar,
     private router: Router,
   ) { }
 
@@ -33,8 +35,13 @@ export class LoginComponent implements OnInit {
   login() {
     this._authService.login(this.form.value.username, this.form.value.password).subscribe(
       (resp) => {
-        console.log(resp);
-        this.router.navigate(['manage/']);
+        if (resp.isFailed) {
+          this._snackBar.open("Authentification failed", "dismiss", { duration: 2000, })
+        } else {
+          this._snackBar.open("Logged in 🎉", "dismiss", { duration: 2000, })
+          this.router.navigate(['manage/']);
+
+        }
       }
     );
 

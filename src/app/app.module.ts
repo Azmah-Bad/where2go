@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { CookieService } from 'ngx-cookie-service';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, DialogOverview, LoginComponent],
@@ -34,6 +35,7 @@ import { CookieService } from 'ngx-cookie-service';
     BrowserAnimationsModule,
     MatSelectModule,
     MatCardModule,
+    MatSnackBarModule,
   ],
   // exports:
   //   [MatDialogModule,

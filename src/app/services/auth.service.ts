@@ -49,9 +49,12 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-
-          this.cookie.set('token', response.token);
-          console.log('token cookie set');
+          try {
+            this.cookie.set('token', response.token);
+            response.isFailed = false
+          } catch {
+            response.isFailed = true
+          }
         })
       );
   }
