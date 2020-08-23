@@ -6,6 +6,8 @@ import { DxVectorMapComponent } from 'devextreme-angular';
 
 import { Relationship } from '../interfaces/relationship';
 import { MapLayerElement } from 'devextreme/viz/vector_map';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './manage.component.html',
@@ -30,7 +32,11 @@ export class ManageComponent implements OnInit {
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
   MapElements: MapLayerElement[];
 
-  constructor(private manger: ManageService) {
+  constructor(
+    private manager: ManageService,
+    private _snackBar: MatSnackBar,
+    private router: Router
+  ) {
     this.customizeLayers = this.customizeLayers.bind(this);
   }
 
@@ -39,7 +45,7 @@ export class ManageComponent implements OnInit {
   }
 
   test() {
-    this.manger.test().subscribe();
+    this.manager.test().subscribe();
   }
 
   /**
@@ -52,9 +58,11 @@ export class ManageComponent implements OnInit {
         // first stage set the departure country
         this.departureCountry = selectedCountry;
         this.updateCountry(selectedCountry, '0');
-        this.moveToNextStage(); // authomatically moves to the next stage 
-      } else { // other stages set the arriavl countries
-        let relationship = new Relationship({ // create the relationship
+        this.moveToNextStage(); // automatically moves to the next stage
+      } else {
+        // other stages set the arriavl countries
+        let relationship = new Relationship({
+          // create the relationship
           departure_country: this.departureCountry,
           arrival_country: selectedCountry,
           status: this.stage.toString(),
@@ -132,6 +140,9 @@ export class ManageComponent implements OnInit {
   if user isn't logged in redirect him to login page
   */
   checkIsLoggedIn() {
-    // todo
+    if (!this.manager.isLoggedIn()) {
+      this._snackBar.open("you are not logged in","dismiss");
+      this.router.navigate(["login/"]);
+    }
   }
 }

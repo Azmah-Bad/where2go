@@ -29,5 +29,9 @@ export class ManageService {
     console.log(this._auth.getToken());
 
     return this.http.post('http://127.0.0.1:8000/test/',{}, httpOptions);
-    }
+  }
+
+  isLoggedIn() {
+    return this._auth.isLoggedIn();
+  }
 }
