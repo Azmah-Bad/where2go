@@ -19,6 +19,9 @@ export class ManageComponent implements OnInit {
   stage = 0;
   stageInstruction = this.INSTRCUTIONS[this.stage];
 
+  @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
+  MapElements = this.VectorMap.instance.getLayerByIndex(0).getElements();
+
   constructor(private manger: ManageService) {
     this.customizeLayers = this.customizeLayers.bind(this);
   }
@@ -29,6 +32,27 @@ export class ManageComponent implements OnInit {
 
   test() {
     this.manger.test().subscribe();
+  }
+
+  click(e) {
+    try {
+      let selectedCountry = e.target.attribute('name');
+      console.log(selectedCountry);
+    } catch (TypeError) {
+      console.log('select a country');
+    }
+  }
+
+  /**
+   * update a country's status on the map
+   */
+  updateCountry(country: string, status: string) {
+    this.MapElements.forEach((element) => {
+      if (element.attribute('name') == country) {
+        element.attribute('total', status); // change the degree of openness of the country
+        element.applySettings({});
+      }
+    });
   }
 
   // map methods
