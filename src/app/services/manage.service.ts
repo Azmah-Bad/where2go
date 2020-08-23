@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { AuthService } from "./auth.service";
 import { CookieService } from 'ngx-cookie-service';
 import { Relationship } from '../interfaces/relationship';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 
@@ -49,7 +51,12 @@ export class ManageService {
     };
     relationship.toISOname();
 
-    return this.http.post<Relationship>(this.API,relationship,httpOptions)
+    return this.http.post<Relationship>(this.API, relationship, httpOptions).pipe(
+      map(resp => {
+        return resp == relationship
+      }),
+      catchError( _ => of(false))
+    )
   }
 
 }

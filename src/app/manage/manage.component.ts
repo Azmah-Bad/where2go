@@ -103,9 +103,15 @@ export class ManageComponent implements OnInit {
    * wrap up all the data in relationships and send it to backend
    */
   submit() {
+    let isSuceessful = true
     this.relationships.forEach(relationship => {
-      this.manager.submit(relationship).subscribe();
+      this.manager.submit(relationship).subscribe(resp => {isSuceessful = isSuceessful || resp});
     })
+    if (isSuceessful) {
+      this._snackBar.open("change saved 🎉", "dismiss")
+    } else {
+      this._snackBar.open("an error has occured, blame the shitty dev 💩", "dismiss")
+    }
   }
 
 
