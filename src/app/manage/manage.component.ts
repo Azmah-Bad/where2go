@@ -4,6 +4,8 @@ import { ManageService } from '../services/manage.service';
 import * as mapsData from 'devextreme/dist/js/vectormap-data/world.js';
 import { DxVectorMapComponent } from 'devextreme-angular';
 
+import { Relationship } from "../interfaces/relationship";
+
 @Component({
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss'],
@@ -15,9 +17,14 @@ export class ManageComponent implements OnInit {
     'select open countries',
     'select open countries with restricitions',
     'select closed countries',
+    'confirm'
   ];
-  stage = 0;
+
+  stage = 0; // keeps track of the stage of the inputs
   stageInstruction = this.INSTRCUTIONS[this.stage];
+
+  departureCountry: string; // at stage 0 manager select the departure country and it gets stored here
+  relationships:Relationship[]; // all the new relationships that the manager created
 
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
   MapElements = this.VectorMap.instance.getLayerByIndex(0).getElements();
@@ -34,10 +41,12 @@ export class ManageComponent implements OnInit {
     this.manger.test().subscribe();
   }
 
+  /**
+   * the click on the map callback
+   */
   click(e) {
     try {
       let selectedCountry = e.target.attribute('name');
-      console.log(selectedCountry);
     } catch (TypeError) {
       console.log('select a country');
     }
@@ -53,6 +62,16 @@ export class ManageComponent implements OnInit {
         element.applySettings({});
       }
     });
+  }
+
+  moveToNextStage() {
+    if (this.stage == 4) {
+      // final stage
+      this.stage = 0;
+    } else {
+      this.stage++;
+      this.stageInstruction = this.INSTRCUTIONS[this.stage]; // update the stage instructions
+    }
   }
 
   // map methods
