@@ -4,7 +4,7 @@ import { ManageService } from '../services/manage.service';
 import * as mapsData from 'devextreme/dist/js/vectormap-data/world.js';
 import { DxVectorMapComponent } from 'devextreme-angular';
 
-import { Relationship } from "../interfaces/relationship";
+import { Relationship } from '../interfaces/relationship';
 import { MapLayerElement } from 'devextreme/viz/vector_map';
 
 @Component({
@@ -18,17 +18,17 @@ export class ManageComponent implements OnInit {
     'select open countries',
     'select open countries with restricitions',
     'select closed countries',
-    'confirm'
+    'confirm',
   ];
 
   stage = 0; // keeps track of the stage of the inputs
   stageInstruction = this.INSTRCUTIONS[this.stage];
 
   departureCountry: string; // at stage 0 manager select the departure country and it gets stored here
-  relationships:Relationship[]; // all the new relationships that the manager created
+  relationships: Relationship[] = []; // all the new relationships that the manager created
 
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
-  MapElements:MapLayerElement[];
+  MapElements: MapLayerElement[];
 
   constructor(private manger: ManageService) {
     this.customizeLayers = this.customizeLayers.bind(this);
@@ -48,6 +48,22 @@ export class ManageComponent implements OnInit {
   click(e) {
     try {
       let selectedCountry = e.target.attribute('name');
+      if (this.stage == 0) {
+        // first stage set the departure country
+        this.departureCountry = selectedCountry;
+        this.updateCountry(selectedCountry, '0');
+        this.moveToNextStage(); // authomatically moves to the next stage 
+      } else { // other stages set the arriavl countries
+        let relationship = new Relationship({ // create the relationship
+          departure_country: this.departureCountry,
+          arrival_country: selectedCountry,
+          status: this.stage.toString(),
+          info: 'no info',
+        });
+        this.relationships.push(relationship); // save it
+
+        this.updateCountry(selectedCountry, this.stage.toString()); // feedback in the map
+      }
     } catch (TypeError) {
       console.log('select a country');
     }
@@ -78,9 +94,7 @@ export class ManageComponent implements OnInit {
   /**
    * wrap up all the data in relationships and send it to backend
    */
-  submit() {
-
-  }
+  submit() {}
 
   // map methods
   customizeLayers(elements) {
