@@ -5,6 +5,7 @@ import * as mapsData from 'devextreme/dist/js/vectormap-data/world.js';
 import { DxVectorMapComponent } from 'devextreme-angular';
 
 import { Relationship } from "../interfaces/relationship";
+import { MapLayerElement } from 'devextreme/viz/vector_map';
 
 @Component({
   templateUrl: './manage.component.html',
@@ -27,7 +28,7 @@ export class ManageComponent implements OnInit {
   relationships:Relationship[]; // all the new relationships that the manager created
 
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
-  MapElements = this.VectorMap.instance.getLayerByIndex(0).getElements();
+  MapElements:MapLayerElement[];
 
   constructor(private manger: ManageService) {
     this.customizeLayers = this.customizeLayers.bind(this);
@@ -101,6 +102,10 @@ export class ManageComponent implements OnInit {
         return 'unknown';
     }
   };
+
+  onDrawn() {
+    this.MapElements = this.VectorMap.instance.getLayerByIndex(0).getElements();
+  }
 
   /*
   if user isn't logged in redirect him to login page

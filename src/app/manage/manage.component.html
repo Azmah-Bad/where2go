@@ -10,6 +10,7 @@
   [bounds]="[-180, 85, 180, -60]"
   [background]="{ borderColor: '#051923', color: '#020F19' }"
   (onClick)="click($event)"
+  (onDrawn)="onDrawn()"
 >
   <dxo-tooltip
     [enabled]="true"
@@ -41,3 +42,6 @@
     <dxo-source layer="areas" grouping="color"></dxo-source>
   </dxi-legend>
 </dx-vector-map>
+
+<button mat-raised-button *ngIf="stage<4" (click)="moveToNextStage()">Next</button>
+<button mat-raised-button *ngIf="stage==4">Confirm</button>
