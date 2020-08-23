@@ -1,1 +1,56 @@
-<button (click)="test()">try</button>
+<h1>Manager page</h1>
+
+<p>here you can select new data and submit it to the server</p>
+
+<p>{{stageInstruction}}</p>
+
+<dx-vector-map
+  id="vector-map"
+  #theVectorMap
+  [bounds]="[-180, 85, 180, -60]"
+  [background]="{ borderColor: '#051923' , color : '#020F19'}"
+  (onDrawn)="updateMap()"
+  >
+
+  <dxo-loading-indicator
+    [enabled] = "true"
+    [show] = "true"
+    backgroundColor="#051923"
+  ></dxo-loading-indicator>
+
+  <dxo-control-bar
+    borderColor="#0582ca"
+    color="#003554"
+  ></dxo-control-bar>
+
+  <dxo-tooltip
+        [enabled]="true"
+        cornerRadius = 15
+        [border]="{ color: '#003554'}"
+        color='#003554'
+        opacity=0,75
+        zIndex = 20
+        [customizeTooltip]="customizeTooltip">
+          <dxo-font color="#0582ca"></dxo-font>
+          <dxo-border [visible]="false"></dxo-border>
+      </dxo-tooltip>
+  <!-- <dxo-export [enabled]="true"></dxo-export> -->
+
+  <dxi-layer
+        [customize]="customizeLayers"
+        [dataSource]="worldMap"
+        [colorGroups]="[0, 1, 2, 3, 4, 5]"
+        colorGroupingField="total"
+        borderColor="#020F19"
+        hoveredBorderColor="#003554"
+        [palette]="['#00A6FB','#74FB74','#ffd166','#FF3333', '#2A2A28']"
+        name="areas">
+        <dxo-label [enabled]="true" dataField="name"></dxo-label>
+
+  </dxi-layer>
+
+  <dxi-legend [customizeText]="customizeText">
+    <dxo-source layer="areas" grouping="color"></dxo-source>
+  </dxi-legend>
+
+</dx-vector-map>

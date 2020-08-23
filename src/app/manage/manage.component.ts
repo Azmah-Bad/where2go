@@ -6,6 +6,7 @@ import { ManageService } from "../services/manage.service";
   styleUrls: ['./manage.component.scss']
 })
 export class ManageComponent implements OnInit {
+  stageInstruction = ""
 
   constructor(
     private manger:ManageService,

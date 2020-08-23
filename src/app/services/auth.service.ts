@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { tap, shareReplay } from 'rxjs/operators';
+import { tap, shareReplay, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 const AUTH_API = 'http://127.0.0.1:8000/';
@@ -49,12 +50,7 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-          try {
             this.cookie.set('token', response.token);
-            response.isFailed = false
-          } catch {
-            response.isFailed = true
-          }
         })
       );
   }
