@@ -28,12 +28,20 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "node_modules/devextreme/dist/css/dx.common.css",
               "node_modules/devextreme/dist/css/dx.light.css",
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies":[
+              "lodash",
+              "devextreme",
+              "devextreme-angular",
+              "devextreme/ui/map",
+              "devextreme/viz/vector_map",
+              "devextreme/dist/js/vectormap-data/world.js"
+            ]
           },
           "configurations": {
             "production": {

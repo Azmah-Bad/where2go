@@ -50,7 +50,7 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-            this.cookie.set('token', response.token);
+            this.cookie.set('token', response["token"]);
         })
       );
   }

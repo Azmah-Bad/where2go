@@ -17,9 +17,10 @@ import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { CookieService } from 'ngx-cookie-service';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ManageComponent } from './manage/manage.component';
 
 @NgModule({
-  declarations: [AppComponent, MapComponent, DialogOverview, LoginComponent],
+  declarations: [AppComponent, MapComponent, DialogOverview, LoginComponent, ManageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -37,12 +38,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatCardModule,
     MatSnackBarModule,
   ],
-  // exports:
-  //   [MatDialogModule,
-  //     MatInputModule,
-  //     MatButtonModule,
-  //     BrowserAnimationsModule
-  //   ],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
