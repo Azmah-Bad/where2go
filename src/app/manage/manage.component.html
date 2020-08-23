@@ -44,4 +44,4 @@
 </dx-vector-map>
 
 <button mat-raised-button *ngIf="stage<4" (click)="moveToNextStage()">Next</button>
-<button mat-raised-button *ngIf="stage==4">Confirm</button>
+<button mat-raised-button *ngIf="stage==4" (click)="submit()">Confirm</button>
