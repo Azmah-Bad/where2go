@@ -102,7 +102,13 @@ export class ManageComponent implements OnInit {
   /**
    * wrap up all the data in relationships and send it to backend
    */
-  submit() {}
+  submit() {
+    this.relationships.forEach(relationship => {
+      this.manager.submit(relationship).subscribe();
+    })
+  }
+
+
 
   // map methods
   customizeLayers(elements) {
