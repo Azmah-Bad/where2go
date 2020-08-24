@@ -56,6 +56,15 @@ export class ManageService {
       );
   }
 
+  delete(relationship: Relationship) {
+    relationship.toISOname();
+    return this.http.delete(
+      this.API +
+        `?departure_country=${relationship.departure_country}&arrival_country=${relationship.arrival_country}`,
+      this.httpOptions
+    );
+  }
+
   /**
    * fetch relationship from backend
    */
