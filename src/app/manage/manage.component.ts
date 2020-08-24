@@ -117,13 +117,7 @@ export class ManageComponent implements OnInit {
     this.manager
       .getRelationship(this.departureCountry)
       .pipe(
-        map((dictionaries) => {
-          let relationships: Relationship[] = [];
-          dictionaries.forEach((dictionary) => {
-            relationships.push(new Relationship(dictionary));
-          });
-          return relationships;
-        }),
+        map(this.dictionaryToRelationships),
         tap((relationships) => {
           relationships.forEach((relationship) => {
             relationship.toCountryNames();
@@ -135,6 +129,14 @@ export class ManageComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  dictionaryToRelationships(dictionaries: any): Relationship[] {
+    let relationships: Relationship[] = [];
+    dictionaries.forEach((dictionary: any) => {
+      relationships.push(new Relationship(dictionary));
+    });
+    return relationships;
   }
 
   /**
