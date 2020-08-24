@@ -1,4 +1,12 @@
-export class Relationship {
+import { getServerStateKey } from 'devextreme-angular';
+
+export interface relationship{
+  departure_country: string;
+  arrival_country: string;
+  status: string;
+  info: string;
+}
+export class Relationship implements relationship{
   departure_country: string;
   arrival_country: string;
   status: string;
@@ -18,6 +26,7 @@ export class Relationship {
   public toCountryNames() {
     this.departure_country = countryListAlpha2[this.departure_country];
     this.arrival_country = countryListAlpha2[this.arrival_country];
+    return this
   }
 
   /**
@@ -52,6 +61,12 @@ export class Relationship {
   //   }
   //   return JSON.stringify(this);
   // }
+
+  public static countryNameToISO(country: string):string {
+    return Object.keys(countryListAlpha2).find(
+      (key) => countryListAlpha2[key] === country
+    )
+  }
 
   private getKeyFromValue(value: string) {
     return Object.keys(countryListAlpha2).find(

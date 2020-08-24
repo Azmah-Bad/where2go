@@ -8,6 +8,7 @@ import { Relationship } from '../interfaces/relationship';
 import { MapLayerElement } from 'devextreme/viz/vector_map';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './manage.component.html',
@@ -58,6 +59,7 @@ export class ManageComponent implements OnInit {
         // first stage set the departure country
         this.departureCountry = selectedCountry;
         this.updateCountry(selectedCountry, '0');
+        this.fillInMap();
         this.moveToNextStage(); // automatically moves to the next stage
       } else {
         // other stages set the arriavl countries
@@ -80,13 +82,22 @@ export class ManageComponent implements OnInit {
   /**
    * update a country's status on the map
    */
-  updateCountry(country: string, status: string) {
+  updateCountry(country: string, status: string, info?: string) {
     this.MapElements.forEach((element) => {
       if (element.attribute('name') == country) {
         element.attribute('total', status); // change the degree of openness of the country
+        if (info !== undefined) {
+          element.attribute('info', info);
+        }
         element.applySettings({});
       }
     });
+  }
+
+  updateCountries(relationships: Relationship[]) {
+    for (let relationship of relationships) {
+      this.updateCountry(relationship.arrival_country, relationship.status);
+    }
   }
 
   moveToNextStage() {
@@ -100,21 +111,51 @@ export class ManageComponent implements OnInit {
   }
 
   /**
+   * after user select departure country fills in the map from server
+   */
+  fillInMap() {
+    this.manager
+      .getRelationship(this.departureCountry)
+      .pipe(
+        map((dictionaries) => {
+          let relationships: Relationship[] = [];
+          dictionaries.forEach((dictionary) => {
+            relationships.push(new Relationship(dictionary));
+          });
+          return relationships;
+        }),
+        tap((relationships) => {
+          relationships.forEach((relationship) => {
+            relationship.toCountryNames();
+            this.updateCountry(
+              relationship.arrival_country,
+              relationship.status
+            );
+          });
+        })
+      )
+      .subscribe();
+  }
+
+  /**
    * wrap up all the data in relationships and send it to backend
    */
   submit() {
-    let isSuceessful = true
-    this.relationships.forEach(relationship => {
-      this.manager.submit(relationship).subscribe(resp => {isSuceessful = isSuceessful || resp});
-    })
+    let isSuceessful = true;
+    this.relationships.forEach((relationship) => {
+      this.manager.submit(relationship).subscribe((resp) => {
+        isSuceessful = isSuceessful || resp;
+      });
+    });
     if (isSuceessful) {
-      this._snackBar.open("change saved 🎉", "dismiss")
+      this._snackBar.open('change saved 🎉', 'dismiss');
     } else {
-      this._snackBar.open("an error has occured, blame the shitty dev 💩", "dismiss")
+      this._snackBar.open(
+        'an error has occured, blame the shitty dev 💩',
+        'dismiss'
+      );
     }
   }
-
-
 
   // map methods
   customizeLayers(elements) {
@@ -153,8 +194,8 @@ export class ManageComponent implements OnInit {
   */
   checkIsLoggedIn() {
     if (!this.manager.isLoggedIn()) {
-      this._snackBar.open("you are not logged in","dismiss");
-      this.router.navigate(["login/"]);
+      this._snackBar.open('you are not logged in', 'dismiss');
+      this.router.navigate(['login/']);
     }
   }
 }
