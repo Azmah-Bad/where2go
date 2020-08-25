@@ -63,7 +63,7 @@
 <button mat-button color="primary" class="restart-button" (click)="restart()">
   Restart
 </button>
-<div class="form-container">
+<div class="form-container" *ngIf="lastSelectedCountry != ''">
   <form class="info-form">
     <mat-form-field class="full-width">
       <mat-label style="color: white;"

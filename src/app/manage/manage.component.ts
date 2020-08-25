@@ -187,8 +187,8 @@ export class ManageComponent implements OnInit {
 
   saveInfo() {
     this.relationships[this.relationships.length - 1].info = this.bufferInfo;
-    this.bufferInfo = ''
-    this._snackBar.open("info saved 🎉","dismiss")
+    this.bufferInfo = '';
+    this._snackBar.open('info saved 🎉', 'dismiss');
   }
   // map methods
   customizeLayers(elements) {
