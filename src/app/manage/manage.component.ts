@@ -8,7 +8,7 @@ import { Relationship } from '../interfaces/relationship';
 import { MapLayerElement } from 'devextreme/viz/vector_map';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, buffer } from 'rxjs/operators';
 
 @Component({
   templateUrl: './manage.component.html',
@@ -186,7 +186,9 @@ export class ManageComponent implements OnInit {
   restart() {}
 
   saveInfo() {
+    this.relationships[this.relationships.length - 1].info = this.bufferInfo;
     this.bufferInfo = ''
+    this._snackBar.open("info saved 🎉","dismiss")
   }
   // map methods
   customizeLayers(elements) {
