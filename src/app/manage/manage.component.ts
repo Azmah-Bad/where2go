@@ -28,6 +28,7 @@ export class ManageComponent implements OnInit {
   stageInstruction = this.INSTRCUTIONS[this.stage];
 
   departureCountry: string; // at stage 0 manager select the departure country and it gets stored here
+  lastSelectedCountry: string = "";
   relationships: Relationship[] = []; // all the new relationships that the manager created
   toBeDeletedRelationships: Relationship[] = []; // all the relationships that the user wants to delete
 
@@ -74,6 +75,7 @@ export class ManageComponent implements OnInit {
             info: 'no info',
           });
           this.relationships.push(relationship); // save it
+          this.lastSelectedCountry = relationship.arrival_country;
 
           this.updateCountry(selectedCountry, this.stage.toString()); // feedback in the map
         } else {
