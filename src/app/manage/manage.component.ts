@@ -190,13 +190,20 @@ export class ManageComponent implements OnInit {
     this.stage = 0;
     this.stageInstruction = this.INSTRCUTIONS[this.stage];
     this.MapElements.forEach((element) => {
-      element.attribute('total', '5');
+      element.attribute('total', undefined);
       element.applySettings({});
     });
   }
 
   saveInfo() {
     this.relationships[this.relationships.length - 1].info = this.bufferInfo;
+    let relationship = this.relationships[this.relationships.length - 1];
+    //update on the map
+    this.updateCountry(
+      relationship.arrival_country,
+      relationship.status,
+      relationship.info
+    );
     this.bufferInfo = '';
     this._snackBar.open('info saved 🎉', 'dismiss');
   }
