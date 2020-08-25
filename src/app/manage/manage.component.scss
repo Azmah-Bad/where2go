@@ -24,8 +24,27 @@ h1 {
   right: 0px;
   margin: 16px;
 }
-.restart-button{
+.restart-button {
   @extend .action-button;
   left: 0px;
-  
+}
+
+.form-container{
+  position: absolute;
+  min-width: 150px;
+  max-width: 500px;
+  left: 30%;
+  color: #fffaff;
+}
+.info-form {
+  position: relative;
+
+  width: 100%;
+}
+.full-width {
+  width: 100%;
+}
+.save-buttom{
+  position: absolute;
+  right: 0px;
 }
