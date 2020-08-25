@@ -183,7 +183,17 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  restart() {}
+  restart() {
+    this.toBeDeletedRelationships = [];
+    this.departureCountry = '';
+    this.lastSelectedCountry = '';
+    this.stage = 0;
+    this.stageInstruction = this.INSTRCUTIONS[this.stage];
+    this.MapElements.forEach((element) => {
+      element.attribute('total', '5');
+      element.applySettings({});
+    });
+  }
 
   saveInfo() {
     this.relationships[this.relationships.length - 1].info = this.bufferInfo;
