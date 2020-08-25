@@ -66,11 +66,18 @@
 <div class="form-container">
   <form class="info-form">
     <mat-form-field class="full-width">
-      <mat-label style="color: white;">Info: from {{departureCountry}} to {{lastSelectedCountry}}</mat-label>
-      <textarea matInput></textarea>
+      <mat-label style="color: white;"
+        >Info: from {{ departureCountry }} to
+        {{ lastSelectedCountry }}</mat-label
+      >
+      <textarea
+        matInput
+        [(ngModel)]="bufferInfo"
+        [ngModelOptions]="{ standalone: true }"
+      ></textarea>
     </mat-form-field>
   </form>
-  <button mat-raised-button class="save-button">
+  <button mat-raised-button class="save-button" (click)="saveInfo()">
     save
   </button>
 </div>

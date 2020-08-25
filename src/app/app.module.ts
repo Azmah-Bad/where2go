@@ -19,6 +19,7 @@ import { CookieService } from 'ngx-cookie-service';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ManageComponent } from './manage/manage.component';
 
+
 @NgModule({
   declarations: [AppComponent, MapComponent, DialogOverview, LoginComponent, ManageComponent],
   imports: [
