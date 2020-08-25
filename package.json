@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~10.0.3",
     "@angular/router": "~10.0.3",
     "@types/jwt-decode": "^2.2.1",
+    "angular-cli-ghpages": "^0.6.2",
     "devextreme": "20.1-stable",
     "devextreme-angular": "20.1-stable",
     "devextreme-schematics": "^1.2.2",

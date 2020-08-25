@@ -34,7 +34,7 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies":[
+            "allowedCommonJsDependencies": [
               "lodash",
               "devextreme",
               "devextreme-angular",
@@ -62,13 +62,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
+                  "maximumWarning": "4mb",
                   "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "70kb"
                 }
               ]
             }
@@ -133,6 +133,10 @@
               "devServerTarget": "w2t:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     }
