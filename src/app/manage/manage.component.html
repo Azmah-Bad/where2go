@@ -44,5 +44,6 @@
   </dxi-legend>
 </dx-vector-map>
 
-<button mat-raised-button *ngIf="stage<4" (click)="moveToNextStage()">Next</button>
-<button mat-raised-button *ngIf="stage==4" (click)="submit()">Confirm</button>
+  <button mat-raised-button *ngIf="stage<4" (click)="moveToNextStage()" class="action-button">Next</button>
+  <button mat-raised-button *ngIf="stage==4" (click)="submit()" class="action-button">Confirm</button>
+

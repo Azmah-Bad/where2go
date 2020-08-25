@@ -1,4 +1,4 @@
-@import url('../../styles.scss');
+@import url("../../styles.scss");
 
 ::ng-deep #vector-map {
   height: 500px;
@@ -9,15 +9,18 @@
   height: 200px;
 }
 
-p{
+p {
   color: #fffaff;
   margin: 16px;
 }
 
-h1{
+h1 {
   color: #fffaff;
   text-align: center;
-  font-family: 'Playfair Display SC', serif;
-
+  font-family: "Playfair Display SC", serif;
 }
-
+.action-button {
+  position: absolute;
+  right: 0px;
+  margin: 16px;
+}
