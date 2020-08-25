@@ -29,7 +29,7 @@ export class ManageComponent implements OnInit {
 
   departureCountry: string; // at stage 0 manager select the departure country and it gets stored here
   relationships: Relationship[] = []; // all the new relationships that the manager created
-  toBeDeletedRelationships: Relationship[] = [] // all the relationships that the user wants to delete
+  toBeDeletedRelationships: Relationship[] = []; // all the relationships that the user wants to delete
 
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
   MapElements: MapLayerElement[];
@@ -63,7 +63,8 @@ export class ManageComponent implements OnInit {
         this.fillInMap();
         this.moveToNextStage(); // automatically moves to the next stage
       } else {
-        if (e.target.attribute('total') == undefined) { // blank country
+        if (e.target.attribute('total') == undefined) {
+          // blank country
           // other stages set the arriavl countries
           let relationship = new Relationship({
             // create the relationship
@@ -78,19 +79,19 @@ export class ManageComponent implements OnInit {
         } else {
           // a country that already have a status and the manager wants to delete
           // add to the toBeDeleted Relationships
-          this.toBeDeletedRelationships.push(new Relationship({
-            // create the relationship
-            departure_country: this.departureCountry,
-            arrival_country: selectedCountry,
-            status: e.target.attribute('total'),
-            info: e.target.attribute('info'),
-          }));
+          this.toBeDeletedRelationships.push(
+            new Relationship({
+              // create the relationship
+              departure_country: this.departureCountry,
+              arrival_country: selectedCountry,
+              status: e.target.attribute('total'),
+              info: e.target.attribute('info'),
+            })
+          );
 
-          this.updateCountry(selectedCountry,"5");
-
+          this.updateCountry(selectedCountry, '5');
         }
       }
-
     } catch (TypeError) {
       console.log('select a country');
     }
@@ -166,8 +167,8 @@ export class ManageComponent implements OnInit {
         isSuceessful = isSuceessful || resp;
       });
     });
-    this.toBeDeletedRelationships.forEach(relationship => {
-      this.manager.delete(relationship).subscribe()
+    this.toBeDeletedRelationships.forEach((relationship) => {
+      this.manager.delete(relationship).subscribe();
     });
     if (isSuceessful) {
       this._snackBar.open('change saved 🎉', 'dismiss');
@@ -178,6 +179,8 @@ export class ManageComponent implements OnInit {
       );
     }
   }
+
+  restart() {}
 
   // map methods
   customizeLayers(elements) {

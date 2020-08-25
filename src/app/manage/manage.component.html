@@ -25,7 +25,6 @@
     <dxo-border [visible]="false"></dxo-border>
   </dxo-tooltip>
 
-
   <dxi-layer
     [customize]="customizeLayers"
     [dataSource]="worldMap"
@@ -44,6 +43,23 @@
   </dxi-legend>
 </dx-vector-map>
 
-  <button mat-raised-button *ngIf="stage<4" (click)="moveToNextStage()" class="action-button">Next</button>
-  <button mat-raised-button *ngIf="stage==4" (click)="submit()" class="action-button">Confirm</button>
+<button
+  mat-raised-button
+  *ngIf="stage < 4"
+  (click)="moveToNextStage()"
+  class="action-button"
+>
+  Next
+</button>
+<button
+  mat-raised-button
+  *ngIf="stage == 4"
+  (click)="submit()"
+  class="action-button"
+>
+  Confirm
+</button>
 
+<button mat-button color="primary" class="restart-button" (click)="restart()">
+  Restart
+</button>
