@@ -158,54 +158,7 @@ export class MapComponent implements OnInit {
       )
       .subscribe();
   }
-
-  /**
-   * call if the country is qurantine meaning you can visit any other country
-   */
-  // updateAllCountries(relationship: Relationship) {
-  //   let openness = relationship.getStatus();
-  //   relationship.translateDepartureCountry();
-  //   this.VectorMap.instance
-  //     .getLayers()[0]
-  //     .getElements()
-  //     .forEach((element) => {
-  //       if (element.attribute('name') != relationship.departure_country) {
-  //         element.attribute('total', openness); // change the degree of openness of the country
-  //         element.attribute('info', relationship.info);
-  //         element.applySettings({});
-  //       }
-  //     });
-  // }
-
-  // updateCountry(country: string, openness: number) {
-  //   // update currentCountry color
-  //   this.VectorMap.instance
-  //     .getLayers()[0]
-  //     .getElements()
-  //     .forEach((element) => {
-  //       if (element.attribute('name') == country) {
-  //         element.attribute('total', openness); // change the degree of openness of the country
-  //         element.applySettings({});
-  //       }
-  //     });
-  // }
-
-  // updateCountries(countries: string[], openness: number) {
-  //   this.VectorMap.instance
-  //     .getLayers()[0]
-  //     .getElements()
-  //     .forEach((element) => {
-  //       if (element.attribute('name') in countries) {
-  //         element.attribute('total', openness); // change the degree of openness of the country
-  //         element.applySettings({});
-  //       }
-  //     });
-  // }
-
-  // resetMap() {
-  //   this.updateAllCountries(new Relationship({ status: '5' }));
-  // }
-
+  
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px',

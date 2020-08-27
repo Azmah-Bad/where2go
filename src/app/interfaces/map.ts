@@ -8,7 +8,7 @@ import dxVectorMap, {
  * a class that handles the VectorMap instance
  */
 export class Map {
-  private Elements: MapLayerElement[];
+  public Elements: MapLayerElement[];
   private Instance: dxVectorMap;
 
   constructor(private vectorMap: DxVectorMapComponent) {
