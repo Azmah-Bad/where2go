@@ -10,12 +10,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { map, tap, buffer } from 'rxjs/operators';
 
+import { Map } from '../interfaces/map';
 @Component({
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss'],
 })
 export class ManageComponent implements OnInit {
   worldMap: any = mapsData.world;
+  Map: Map;
   INSTRCUTIONS = [
     'select departure country',
     'select open countries',
@@ -34,7 +36,6 @@ export class ManageComponent implements OnInit {
   toBeDeletedRelationships: Relationship[] = []; // all the relationships that the user wants to delete
 
   @ViewChild('theVectorMap', { static: false }) VectorMap: DxVectorMapComponent;
-  MapElements: MapLayerElement[];
 
   constructor(
     private manager: ManageService,
@@ -61,7 +62,7 @@ export class ManageComponent implements OnInit {
       if (this.stage == 0) {
         // first stage set the departure country
         this.departureCountry = selectedCountry;
-        this.updateCountry(selectedCountry, '0');
+        this.updateCountry(selectedCountry, 0);
         this.fillInMap();
         this.moveToNextStage(); // automatically moves to the next stage
       } else {
@@ -78,7 +79,7 @@ export class ManageComponent implements OnInit {
           this.relationships.push(relationship); // save it
           this.lastSelectedCountry = relationship.arrival_country;
 
-          this.updateCountry(selectedCountry, this.stage.toString()); // feedback in the map
+          this.updateCountry(selectedCountry, this.stage); // feedback in the map
         } else {
           // a country that already have a status and the manager wants to delete
           // add to the toBeDeleted Relationships
@@ -92,7 +93,7 @@ export class ManageComponent implements OnInit {
             })
           );
 
-          this.updateCountry(selectedCountry, '5');
+          this.updateCountry(selectedCountry, 5);
         }
       }
     } catch (TypeError) {
@@ -103,21 +104,16 @@ export class ManageComponent implements OnInit {
   /**
    * update a country's status on the map
    */
-  updateCountry(country: string, status: string, info?: string) {
-    this.MapElements.forEach((element) => {
-      if (element.attribute('name') == country) {
-        element.attribute('total', status); // change the degree of openness of the country
-        if (info !== undefined) {
-          element.attribute('info', info);
-        }
-        element.applySettings({});
-      }
-    });
+  updateCountry(country: string, status: number, info?: string) {
+    this.Map.setCountryStatus(country, status, info);
   }
 
   updateCountries(relationships: Relationship[]) {
     for (let relationship of relationships) {
-      this.updateCountry(relationship.arrival_country, relationship.status);
+      this.updateCountry(
+        relationship.arrival_country,
+        relationship.getStatus()
+      );
     }
   }
 
@@ -144,7 +140,7 @@ export class ManageComponent implements OnInit {
             relationship.toCountryNames();
             this.updateCountry(
               relationship.arrival_country,
-              relationship.status
+              relationship.getStatus()
             );
           });
         })
@@ -189,7 +185,7 @@ export class ManageComponent implements OnInit {
     this.lastSelectedCountry = '';
     this.stage = 0;
     this.stageInstruction = this.INSTRCUTIONS[this.stage];
-    this.MapElements.forEach((element) => {
+    this.Map.Elements.forEach((element) => {
       element.attribute('total', undefined);
       element.applySettings({});
     });
@@ -201,7 +197,7 @@ export class ManageComponent implements OnInit {
     //update on the map
     this.updateCountry(
       relationship.arrival_country,
-      relationship.status,
+      relationship.getStatus(),
       relationship.info
     );
     this.bufferInfo = '';
@@ -236,7 +232,7 @@ export class ManageComponent implements OnInit {
   };
 
   onDrawn() {
-    this.MapElements = this.VectorMap.instance.getLayerByIndex(0).getElements();
+    this.Map = new Map(this.VectorMap);
   }
 
   /*
