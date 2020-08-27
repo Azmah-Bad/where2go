@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { map, tap, buffer } from 'rxjs/operators';
 
-import { Map } from "../interfaces/map";
+import { Map } from '../interfaces/map';
 @Component({
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss'],
@@ -105,12 +105,15 @@ export class ManageComponent implements OnInit {
    * update a country's status on the map
    */
   updateCountry(country: string, status: number, info?: string) {
-    this.Map.setCountryStatus(country,status,info)
+    this.Map.setCountryStatus(country, status, info);
   }
 
   updateCountries(relationships: Relationship[]) {
     for (let relationship of relationships) {
-      this.updateCountry(relationship.arrival_country, relationship.getStatus());
+      this.updateCountry(
+        relationship.arrival_country,
+        relationship.getStatus()
+      );
     }
   }
 
@@ -229,7 +232,7 @@ export class ManageComponent implements OnInit {
   };
 
   onDrawn() {
-    this.Map = new Map(this.VectorMap)
+    this.Map = new Map(this.VectorMap);
   }
 
   /*
