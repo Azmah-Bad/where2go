@@ -40,6 +40,10 @@ export class ManageService {
     return this._auth.isLoggedIn();
   }
 
+  logout() {
+    return this._auth.logout(this.httpOptions);
+  }
+
   /**
    * submits a relationship to the server
    */

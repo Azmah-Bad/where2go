@@ -4,12 +4,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { tap, shareReplay, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-
 const AUTH_API = 'http://127.0.0.1:8000/';
-
-const OBTAIN_TOKEN_URL = AUTH_API.concat('token/');
-const REFRESH_TOKEN_URL = AUTH_API.concat('refresh-token/');
-
+const OBTAIN_TOKEN_URL = AUTH_API + 'token/';
+const LOGOUT_URL = AUTH_API + 'logout/';
 const COOKIE_KEY = 'token';
 
 @Injectable({
@@ -37,7 +34,6 @@ export class AuthService {
     };
   }
 
-
   getToken(): string {
     return this.cookie.get(COOKIE_KEY);
   }
@@ -50,17 +46,18 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-            this.cookie.set('token', response["token"]);
+          this.cookie.set('token', response['token']);
         })
       );
   }
 
-
-
-  logout() {
-    this.cookie.delete('token')
+  logout(httpOptions) {
+    return this.http.get(LOGOUT_URL, httpOptions).pipe(
+      tap(() => {
+        this.cookie.delete('token');
+      })
+    );
   }
-
 
   isLoggedIn() {
     return this.cookie.check(COOKIE_KEY);

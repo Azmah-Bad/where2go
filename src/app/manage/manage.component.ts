@@ -191,6 +191,10 @@ export class ManageComponent implements OnInit {
     });
   }
 
+  logout() {
+    this.manager.logout().subscribe(this.router.navigate['login/']);
+  }
+
   saveInfo() {
     this.relationships[this.relationships.length - 1].info = this.bufferInfo;
     let relationship = this.relationships[this.relationships.length - 1];
