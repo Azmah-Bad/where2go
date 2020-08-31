@@ -192,7 +192,9 @@ export class ManageComponent implements OnInit {
   }
 
   logout() {
-    this.manager.logout().subscribe(this.router.navigate['login/']);
+    this.manager.logout().subscribe(() => {
+      this.router.navigate(['login/']);
+    });
   }
 
   saveInfo() {
