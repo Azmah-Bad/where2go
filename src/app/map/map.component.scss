@@ -1,5 +1,10 @@
 @import url('../../styles.scss');
 
+@font-face {
+  font-family: Gidole;
+  src: url('../../assets/fonts/Gidole-Regular.otf');
+}
+
 ::ng-deep #vector-map {
   height: 500px;
 }
@@ -16,13 +21,16 @@ h4 {
 h1{
   color: #fffaff;
   text-align: center;
-  font-family: 'Playfair Display SC', serif;
+  font-family: Gidole;
+  font-size: 32px;
+  margin: 4px;
 
 }
 h2{
   color: #fffaff;
   font-size: small;
   font-style: normal;
+  margin: 8px;
 }
 .change-country-button{
   position: relative;
